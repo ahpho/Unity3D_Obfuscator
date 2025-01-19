@@ -251,7 +251,27 @@ namespace Unity3DObfuscator
             {
                 bType5 = FindType(bType2.BaseType.TypeName);
             }
-            return ((type.BaseType != null && type.BaseType.TypeName == "MonoBehaviour") || (monoTypes.Contains(type)) || (FindType(type.BaseType.TypeName) != null && monoTypes.Contains(FindType(type.BaseType.TypeName))) || (type.BaseType != null && type.BaseType.TypeName == "MonoBehaviour") || ((bType2 != null && bType2.BaseType.TypeName == "MonoBehaviour") || (bType3 != null && bType3.BaseType.TypeName == "MonoBehaviour") || (bType4 != null && bType4.BaseType.TypeName == "MonoBehaviour") || (bType5 != null && bType5.BaseType.TypeName == "MonoBehaviour")));
+            return
+                (
+                    (
+                        type.BaseType != null && type.BaseType.TypeName == "MonoBehaviour"
+                    ) ||
+                    (
+                        monoTypes.Contains(type)
+                    ) ||
+                    (
+                        type.BaseType != null && FindType(type.BaseType.TypeName) != null && monoTypes.Contains(FindType(type.BaseType.TypeName))
+                    ) || 
+                    (
+                        type.BaseType != null && type.BaseType.TypeName == "MonoBehaviour"
+                    ) ||
+                    (
+                        (bType2 != null && bType2.BaseType != null && bType2.BaseType.TypeName == "MonoBehaviour") ||
+                        (bType3 != null && bType3.BaseType != null && bType3.BaseType.TypeName == "MonoBehaviour") ||
+                        (bType4 != null && bType4.BaseType != null && bType4.BaseType.TypeName == "MonoBehaviour") ||
+                        (bType5 != null && bType5.BaseType != null && bType5.BaseType.TypeName == "MonoBehaviour")
+                    )
+                );
         }
     }
 }

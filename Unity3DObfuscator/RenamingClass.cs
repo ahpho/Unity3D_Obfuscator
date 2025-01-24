@@ -1,11 +1,15 @@
 ﻿using dnlib.DotNet;
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Unity3DObfuscator
 {
     //The renaming class.
     public class RenamingClass
     {
+        private HashSet<string> aExludedMethods = null;
+
         public void RenameNamespaces() //Renames the namespaces. It doesn't rename a namespace of a type if the type is excluded.
         {
             if (!MainClass.Settings.RenameNamespaces)
@@ -61,8 +65,29 @@ namespace Unity3DObfuscator
                 }
             }
         }
+
+        private bool IsMethodExcluded(string methodName)
+        {
+            if (aExludedMethods == null)
+            {
+                aExludedMethods = new HashSet<string>();
+                string content = File.ReadAllText(@".\exclude_methods.txt");
+                string[] lines = content.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string line in lines)
+                    aExludedMethods.Add(line);
+            }
+
+            foreach (string exclude in aExludedMethods)
+                if (methodName.Contains(exclude))
+                    return true;
+
+            return false;
+        }
+
         public void RenameMethods() //Renames the methods. It doesn't rename the methods that their type is excluded or are execution functions in Unity. Example: Start, Update, OnGUI, etc...
         {
+            aExludedMethods = null;
+
             if (!MainClass.Settings.RenameMethods)
             {
                 return;
@@ -77,7 +102,7 @@ namespace Unity3DObfuscator
                         {
                             if (MethodExists(type, method))
                             {
-                                if (method.Name != ".ctor" && method.Name != ".cctor")
+                                if (method.Name != ".ctor" && method.Name != ".cctor" && !IsMethodExcluded(method.Name))
                                 {
                                     if (IsMonoType(type))
                                     {

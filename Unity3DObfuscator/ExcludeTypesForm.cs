@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -230,6 +231,17 @@ namespace Unity3DObfuscator
             Exclusion.Types.Add(item);
             TypesList.Items.Clear();
             UpdateTypes();
+        }
+
+        private void clsButtonBlue_Click(object sender, EventArgs e)
+        {
+            string content = File.ReadAllText(@".\exclude_types.txt");
+            string[] lines = content.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string line in lines)
+            {
+                ExcludedTypesList.Items.Add(line);
+                Exclusion.ExludedTypes.Add(line);
+            }
         }
 
         private void CloseBtn_Click(object sender, EventArgs e) //Closes the form.

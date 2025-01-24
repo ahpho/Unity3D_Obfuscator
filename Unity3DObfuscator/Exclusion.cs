@@ -15,6 +15,8 @@ namespace Unity3DObfuscator
 
         //Excluded types.
         private static readonly List<string> exludedTypes = new List<string>(new string[0]);
+        //Excluded methods.
+        private static readonly List<string> exludedMethods = new List<string>(new string[0]);
 
         //Excluded strings.
         private static readonly List<string> excludedStrings = new List<string>(new string[0]);
@@ -28,6 +30,8 @@ namespace Unity3DObfuscator
         public static List<string> Types => types;
 
         public static List<string> ExludedTypes => exludedTypes;
+
+        public static List<string> ExludedMethods => exludedMethods;
 
         public static List<string> ExcludedStrings => excludedStrings;
 
